@@ -15,8 +15,8 @@
   (if (null? statuses)
       #f
       (let ((tweet (extract-tweet (cdar statuses) ())))
-        (format #t "~s ~s: ~s\n"
-                (x->string *since_id*)
+        (format #t "~a: ~a\n"
+                ;(x->string *since_id*)
                 (x->string (car tweet))
                 (x->string (cadr tweet)))
         (print-tweet (cdr statuses)))))
@@ -39,10 +39,10 @@
   (let* ((timeline 
           (twitter-home-timeline/sxml *cred* :count 30))
          (statuses ((sxpath '(statuses status)) timeline)))
-    (print-tweet statuses))
+    (print-tweet (reverse statuses)))
   (while #t
     (let* ((timeline 
             (twitter-home-timeline/sxml *cred* :count 6 :since-id *since_id*))
            (statuses ((sxpath '(statuses status)) timeline)))
-      (print-tweet statuses))
-    (sys-sleep 100)))
+      (print-tweet (reverse statuses))
+    (sys-sleep 100))))
